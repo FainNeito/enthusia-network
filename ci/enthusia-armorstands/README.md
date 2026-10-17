@@ -27,6 +27,8 @@ REQ-003 / INFRA-004. This changes infrastructure orchestration and an immutable 
 
 Local verification on 17 October 2026: clean Maven verification from the network's pinned submodule passed all 22 tests on Java 25 / Paper `26.2.build.128-stable`. The Windows network helper also reached and passed the same new verification step before continuing to the existing dependencies. EARS validation and workflow YAML parsing passed. All 22 pre-existing gitlink pins are preserved. Artifact descriptor remains `EnthusiaArmorStands` / `0.1.0-SNAPSHOT` / API `26.2`; no Paper dependency is bundled. Whole-network and exact-head hosted results are recorded in the PR before delivery; a standalone pass is not a full network pass.
 
+The complete Windows helper then built the existing Maven compile dependencies, passed Signature's 77 tests and nine importer checks, and failed at its pre-existing Playtime artifact query: PowerShell received a literal `^` token from the batch file's escaped pipeline. This integration does not change that existing query. The whole-network task therefore remains open, as does trusted private CI access. No full combined pass is claimed.
+
 The user confirmed prior TEST permission, protection, pose rendering, persistence and duty-context acceptance on 17 October. That confirmation does not run or authorize a new deployment. The version remains the reviewed `0.1.0-SNAPSHOT`; this integration does not silently create a release version.
 
 ## Deployment boundary
