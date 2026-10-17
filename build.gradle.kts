@@ -1,6 +1,46 @@
 // Root build for enthusia-network monorepo.
 // This file only provides convenience tasks — each plugin builds independently.
 
+val nestedGradle = if (System.getProperty("os.name").startsWith("Windows", ignoreCase = true)) {
+    "gradlew.bat"
+} else {
+    "./gradlew"
+}
+
+tasks.register<Exec>("buildToiletFlush") {
+    description = "Test and package EnthusiaToiletFlush Velocity and Paper companion artifacts"
+    group = "enthusia"
+    workingDir("plugins/enthusia-toilet-flush")
+    commandLine(
+        nestedGradle,
+        ":velocity:check",
+        ":velocity:shadowJar",
+        ":paper-companion:check",
+        ":paper-companion:shadowJar",
+        "--no-daemon",
+    )
+}
+
+tasks.register<Exec>("cleanToiletFlush") {
+    group = "enthusia"
+    workingDir("plugins/enthusia-toilet-flush")
+    commandLine(nestedGradle, "clean", "--no-daemon")
+}
+
+tasks.register<Exec>("buildDisplay") {
+    description = "Test and package pinned EnthusiaDisplay backend and Velocity companion"
+    group = "enthusia"
+    onlyIf { System.getenv("ENTHUSIADISPLAY_SKIP") != "true" }
+    commandLine(listOf(System.getenv("PYTHON_BIN") ?: "python", "scripts/build-display.py") +
+        if (System.getenv("ENTHUSIADISPLAY_ROSECHAT_BUILT") == "true") listOf("--rosechat-built") else emptyList())
+}
+
+tasks.register<Exec>("cleanDisplay") {
+    group = "enthusia"
+    onlyIf { System.getenv("ENTHUSIADISPLAY_SKIP") != "true" }
+    commandLine(System.getenv("PYTHON_BIN") ?: "python", "scripts/build-display.py", "--clean-only")
+}
+
 tasks.register("buildAll") {
     description = "Build all Enthusia plugins (shadowJar where available)"
     group = "enthusia"
@@ -8,6 +48,8 @@ tasks.register("buildAll") {
     // Order matters: dependencies first, dependents last
     // enthusia-biomes excluded — requires Gradle 9.x (paperweight), build separately
     dependsOn(
+        "buildDisplay",
+        "buildToiletFlush",
         gradle.includedBuild("luma-guilds").task(":shadowJar"),
         gradle.includedBuild("enthusia-market").task(":shadowJar"),
         gradle.includedBuild("enthusia-advancements").task(":shadowJar"),
@@ -22,6 +64,8 @@ tasks.register("cleanAll") {
     group = "enthusia"
 
     dependsOn(
+        "cleanDisplay",
+        "cleanToiletFlush",
         gradle.includedBuild("luma-guilds").task(":clean"),
         gradle.includedBuild("enthusia-market").task(":clean"),
         gradle.includedBuild("enthusia-advancements").task(":clean"),

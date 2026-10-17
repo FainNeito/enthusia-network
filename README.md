@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://github.com/BadgersMC/enthusia-network/actions/workflows/upstream-watch.yml"><img src="https://github.com/BadgersMC/enthusia-network/actions/workflows/upstream-watch.yml/badge.svg" alt="Upstream watch"></a>
-  <img src="https://img.shields.io/badge/plugins-19-C2410C" alt="19 plugins">
+  <img src="https://img.shields.io/badge/plugins-22-C2410C" alt="22 plugins">
   <img src="https://img.shields.io/badge/core-Paper_26.2-F5B841" alt="Core: Paper 26.2">
   <img src="https://img.shields.io/badge/core-Java_25-DC2626" alt="Core: Java 25">
   <img src="https://img.shields.io/badge/status-active-0A0A0A" alt="Active">
@@ -41,12 +41,15 @@ Built on the work of **[BadgersMC](https://github.com/BadgersMC)**, **[wsg138 (p
 | [enthusia-teleport](plugins/enthusia-teleport) | Teleportation system | p2wn |
 | [enthusia-tags](plugins/enthusia-tags) | Player tags / prefixes | p2wn |
 | [enthusia-commend](plugins/enthusia-commend) | Player commendation system | p2wn |
+| [enthusia-signature](plugins/enthusia-signature) | Permanent item signatures and item-bound stat trackers | FainNeito |
 | [diary-keeper](plugins/diary-keeper) | Player diary / journal system | p2wn |
 | [warzone-duels](plugins/warzone-duels) | 1v1 duels with WarzoneRotator integration | p2wn |
+| [enthusia-toilet-flush](plugins/enthusia-toilet-flush) | Graceful scheduled backend, proxy, and full-network restarts with drain/rejoin queue | BadgersMC + p2wn |
 | [enthusia-donor](plugins/enthusia-donor) | Donation perks, auto-link, SQLite-backed transactions | Hermes-Enthusia fork (upstream: NotBorlyn) |
 | [enthusia-donor-npcs](plugins/enthusia-donor-npcs) | Leaderboard donor NPCs (FancyNPCs-based) | Hermes-Enthusia fork (upstream: NotBorlyn) |
 | [enthusia-giveaway](plugins/enthusia-giveaway) | Scheduled giveaways with admin GUI and live winner announcements | Badger |
 | [enthusia-votes](plugins/enthusia-votes) | Vote rewards — streaks, vote parties, Raw Gold payouts | Badger |
+| [enthusia-display](plugins/enthusia-display) | Kotlin per-viewer nametag, TAB and chat preferences, with a Velocity companion | Enthusia |
 
 ## What's in it
 
@@ -57,6 +60,7 @@ Built on the work of **[BadgersMC](https://github.com/BadgersMC)**, **[wsg138 (p
 - 🌋 **World.** EnthusiaBiomes' NMS custom biome generation.
 - 🎮 **Life.** Playtime tracking, teleportation, tags, commendations, diary/journal, faster sleep — the daily-server QoL stack.
 - 🎁 **Donations.** Donor perks and leaderboard NPCs, maintained on the Hermes-Enthusia fork.
+- 🚽 **Operations.** EnthusiaToiletFlush coordinates scheduled backend, proxy, and full-network restarts with graceful draining, maintenance mode, and queued rejoin.
 - 🎉 **Events.** Scheduled giveaways with live winner announcements, and vote rewards (streaks, vote parties, Raw Gold payouts).
 
 ## Quick Start
@@ -88,17 +92,31 @@ scripts\build-all.bat
 
 ## Build System
 
+The network build verifies `enthusia-tags` through `scripts/build-tags.sh`, including its pinned dependency bootstrap and the pilot API from the network renderer submodule. Git Bash, Python 3 and Node.js are required alongside Maven and Java 25 for this verification. The resulting pilot renderer is a separate artifact from the root Gradle renderer; see [active playtime integration gates](docs/playtime-integration.md) before selecting a runtime profile.
+
 This repo uses **Gradle composite builds**. The root `settings.gradle.kts` includes each plugin via `includeBuild()`, which means:
 
 - Plugins can reference each other by GAV coordinates instead of relative JAR paths
-- A single `./gradlew buildAll` builds everything in dependency order
+- `./gradlew buildAll` builds the included Gradle projects; the build helpers also verify standalone Maven plugins
 - Each plugin retains its own `build.gradle.kts` and can still be built standalone
 
-### Separate builds: RoseChat and enthusia-biomes
+### Separate builds: EnthusiaSignature, RoseChat, EnthusiaDisplay, EnthusiaToiletFlush and enthusia-biomes
+
+`plugins/enthusia-signature` is pinned to the reviewed `FainNeito/ItemSignature` repository. Both build helpers and CI run `mvn -B -ntp clean verify`, including its tracker regression suite. The shaded artifact is `plugins/enthusia-signature/target/EnthusiaSignature-1.3.0.jar`. Its Maven build stays outside the Gradle composite; `./gradlew buildAll` alone does not build Maven plugins. [Integration requirements and evidence](docs/tasks.md) document the pin and verification boundaries.
+
+Tracker removal remains disabled by default. Item data, MiniMessage signing, DiaryKeeper protection, and optional Nexo integration retain the upstream defaults. Native spear lunge support is capability-gated; live player acceptance is tracked in the plugin's `TESTING.md`.
+
+The pinned source also provides the [Halloween glyph importer](plugins/enthusia-signature/resourcepack/halloween/README.md). Build helpers and CI run its nine collision/preservation checks with Python and pinned PyYAML. Licensed images remain outside Git. The generated glyphs are excluded from guild emojis and need no Signature JAR upgrade; installing their files does not regenerate or activate Nexo's pack.
 
 `plugins/rosechat` is pinned to `BadgersMC/Enthusia-RoseChat` and uses its own Gradle build. It is built first so LumaGuilds compiles against the exact RoseChat API that will be deployed. It is intentionally not an `includeBuild()` member.
 
+`plugins/enthusia-toilet-flush` is pinned to the canonical `BadgersMC/EnthusiaToiletFlush` repository while upstream-watch tracks p2wn's `wsg138/EnthusiaToiletFlush` as its true upstream. Root `buildAll` invokes the plugin's own wrapper through `buildToiletFlush`, running both Velocity and Paper-companion checks before packaging both shaded JARs. The Velocity artifact belongs on the proxy only; the Paper companion belongs on each managed backend. The generic backend deploy helper intentionally does not auto-deploy this dual-target pair.
+
 `enthusia-biomes` uses [paperweight](https://github.com/PaperMC/paperweight) and is also built independently from the root composite.
+
+`plugins/enthusia-display` pins the reviewed merged standalone source at `1734f4329ecb8cd10203fed162e4c0bc3ae27a72`. Root `buildAll` invokes its standalone backend and proxy tests/JAR tasks through `buildDisplay`, using the freshly built pinned RoseChat API. It requires Python 3 and the patched UnlimitedNameTags 2.0.2 and PlaceholderAPI 2.12.3 compile JARs; set the dependency paths before running the build helpers. CI requires approved URLs and hashes. See [the Display build contract and evidence](ci/enthusia-display/README.md).
+
+The backend deploy helper selects only `EnthusiaDisplay.jar`. Its `EnthusiaDisplayProxy-0.1.5-test.jar` belongs on Velocity and requires separate deployment authorization. Building these artifacts does not activate the plugin or restart a server.
 
 ## RoseChat lineage
 
@@ -143,6 +161,7 @@ enthusia-network/
 │   ├── enthusia-advancements/
 │   ├── luma-guilds/
 │   ├── rosechat/            # canonical Enthusia RoseChat pin
+│   ├── enthusia-display/    # backend plus proxy/ companion
 │   ├── enthusia-market/
 │   ├── enthusia-biomes/
 │   ├── enthusia-currency/
@@ -153,8 +172,10 @@ enthusia-network/
 │   ├── enthusia-teleport/
 │   ├── enthusia-tags/
 │   ├── enthusia-commend/
+│   ├── enthusia-signature/ # Maven build: target/EnthusiaSignature-1.3.0.jar
 │   ├── diary-keeper/
 │   ├── warzone-duels/
+│   ├── enthusia-toilet-flush/ # Velocity restart coordinator + Paper companion
 │   ├── enthusia-donor/
 │   ├── enthusia-donor-npcs/
 │   ├── enthusia-giveaway/
@@ -168,7 +189,7 @@ enthusia-network/
 
 Enthusia Network is a monorepo — every plugin stands on its original author's work. Enormous thanks to:
 
-- **[wsg138 (p2wn)](https://github.com/wsg138)** — author of the bulk of the server stack: EnthusiaCurrency, PlayTimePlugin, MaceGuard, FasterSleep, EnthusiaTeleport, EnthusiaTags, EnthusiaCommend, DiaryKeeper, WarzoneDuels, and the original EnthusiaAdvancements work. Most of the "fork" pins in this repo point at BadgersMC forks of p2wn's upstream repos.
+- **[wsg138 (p2wn)](https://github.com/wsg138)** — author of the bulk of the server stack: EnthusiaCurrency, PlayTimePlugin, MaceGuard, FasterSleep, EnthusiaTeleport, EnthusiaTags, EnthusiaCommend, DiaryKeeper, WarzoneDuels, major EnthusiaToiletFlush restart safety/recovery work, and the original EnthusiaAdvancements work. Most of the "fork" pins in this repo point at BadgersMC forks of p2wn's upstream repos.
 - **[NotBorlyn](https://github.com/NotBorlyn)** — author of EnthusiaDonor and EnthusiaDonorNPCs, now maintained on the [Hermes-Enthusia fork](https://github.com/Hermes-Enthusia).
 - **[BadgersMC](https://github.com/BadgersMC)** — LumaGuilds, EnthusiaMarket, EnthusiaBiomes, LumaSG, and the ongoing EnthusiaAdvancements development.
 - **[Rosewood Development](https://github.com/Rosewood-Development)** — RoseChat and RoseGarden, including the official Paper 26.2/Java 25 migration used as our canonical chat base.

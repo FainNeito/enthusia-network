@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Build all Enthusia plugins in dependency order.
-# Requires: Git, Maven, and JDK 25.
+# Requires: Git, Maven, Python 3, and discoverable JDKs 21 and 25.
+# Display compile dependencies: see ci/enthusia-display/README.md.
 # Usage: ./scripts/build-all.sh [--clean]
 
 set -euo pipefail
@@ -24,6 +25,21 @@ for plugin in diary-keeper enthusia-currency playtime-plugin enthusia-commend; d
     echo "   - $plugin"
     (cd "plugins/$plugin" && mvn -q -B package -DskipTests)
 done
+
+echo ">> Verifying EnthusiaSignature (including tracker regression tests)..."
+(cd plugins/enthusia-signature && mvn -B -ntp clean verify)
+(cd plugins/enthusia-signature && python -m pip install -r resourcepack/halloween/requirements.txt && python -m unittest discover -s tools/resourcepack -p 'test_*.py' -v)
+
+mapfile -t playtime_jars < <(find plugins/playtime-plugin/target -maxdepth 1 -type f \
+    -name 'playtime-plugin-*.jar' ! -name '*-sources.jar' ! -name '*-javadoc.jar')
+if [[ "${#playtime_jars[@]}" -ne 1 ]]; then
+    echo 'Expected one current Playtime artifact; clean its target directory before building.' >&2
+    exit 1
+fi
+export ENTHUSIAPLAYTIME_JAR="$PWD/${playtime_jars[0]}"
+
+echo ">> Verifying EnthusiaTags against the network renderer..."
+bash scripts/build-tags.sh
 
 echo ">> Staging EnthusiaPlaytime API for LumaGuilds..."
 rm -rf "$DEPS_DIR/playtime-api"
@@ -69,6 +85,10 @@ if [ -z "$rosechat_jar" ]; then
     exit 1
 fi
 cp "$rosechat_jar" plugins/luma-guilds/libs/RoseChat-RC-2.jar
+export ENTHUSIADISPLAY_ROSECHAT_BUILT=true
+
+echo ">> Building pinned Staff lifecycle API for LumaGuilds..."
+python3 scripts/build-guild-staff-api.py
 
 echo ">> Building LumaGuilds 3 core artifact..."
 (
@@ -128,4 +148,5 @@ echo ">> Building enthusia-biomes..."
 echo
 echo "=== Build Complete ==="
 echo "JARs:"
-find plugins/*/build/libs -name "*.jar" -not -name "*-dev*" -not -name "*-sources*" 2>/dev/null | sort
+find plugins -type f \( -path "*/build/libs/*.jar" -o -path "*/target/*.jar" \) \
+    ! -name "*-dev*" ! -name "*-sources*" ! -name "*-javadoc*" ! -name "original-*" | sort
