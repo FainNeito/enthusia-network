@@ -6,7 +6,7 @@ REQ-HREL-001: WHEN building the holiday candidate THE SYSTEM SHALL retain curren
 
 REQ-HREL-002: IF a component has not merged into its canonical default branch THEN THE SYSTEM SHALL label this combined build as a testing candidate and require canonical merge/pin reconciliation before production delivery.
 
-This branch starts from canonical network main 559bfab and changes three existing submodule pins plus a fork-only CI classification correction and this evidence. It does not reset the network to an older owner-fork branch, redesign menus, install plugins, reload the resource pack or enable any holiday activity.
+This branch starts from canonical network main 559bfab and changes three existing submodule pins plus fork-only CI classification, the selected guild API bootstrap and this evidence. It does not reset the network to an older owner-fork branch, redesign menus, install plugins, reload the resource pack or enable any holiday activity.
 
 ## Component pins
 
@@ -33,6 +33,8 @@ Spec: requirements and component selection above. Prove: the existing strict scr
 Local results: canonical Holidays clean build and all 11 supported Paper compile profiles pass, 273 tests; canonical advancement pilot clean install passes 44 tests; Tags clean verify against that actual provider passes 278 tests; LumaGuilds current-parent clean test/shadowJar passes 1,769 test cases, zero failures/errors and 16 environment skips. Tags additionally passes 11 Python bootstrap regressions, 12 Node state/tooling tests and EARS. These are component/source checks, not a claim that the full network CI, private Display gate, MariaDB profiles or Minecraft clients have passed.
 
 The owner's fork PR reproduced a CI classification failure: a same-repository PR in a fork required the canonical private Display token. Recognize the event repository's fork flag as well as cross-repository PRs, matching the existing public-fork verification policy. Truth table: owner-fork PR/push skips private Display; cross-fork PR into canonical also skips it; canonical push and canonical same-repository PR still require its private token and approved API variables. No runtime behavior or canonical trusted gate changes. A successful public build must never be reported as private Display acceptance.
+
+The next hosted run at f4539be passed the selected renderer/Tags checks but failed guild compilation because the network did not supply the newer parent's Staff lifecycle API. Preserve that parent functionality: scripts/build-guild-staff-api.py builds the exact wsg138/EnthusiaStaff commit 8539bb8c77d7ecaf083546dda7ca8ccbfa8064e6 already used by selected LumaGuilds CI, checks the guild's declared pin, refuses modified source checkouts, verifies source HEAD and six required API class entries, and records the resulting JAR hash. CI plus both existing build-all entrypoints invoke it before guild compilation. Local bootstrap passed with hash 4c834ececb860a88aab7f9a757b9ce86301c24a8452d4c3c5b1f1653a28e51ea. No guild or Staff source implementation is patched and no loose/stub API is committed.
 
 ## Release gates
 

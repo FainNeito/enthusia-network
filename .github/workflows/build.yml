@@ -20,6 +20,7 @@ on:
       - 'scripts/build-display.py'
       - 'scripts/build-all.*'
       - 'scripts/build-tags.sh'
+      - 'scripts/build-guild-staff-api.py'
       - 'gradle/wrapper/**'
       - 'gradlew'
   pull_request:
@@ -35,6 +36,7 @@ on:
       - 'scripts/build-display.py'
       - 'scripts/build-all.*'
       - 'scripts/build-tags.sh'
+      - 'scripts/build-guild-staff-api.py'
       - 'gradle/wrapper/**'
       - 'gradlew'
   workflow_dispatch: {}
@@ -233,6 +235,9 @@ jobs:
             chmod +x gradlew
             ./gradlew publishToMavenLocal --no-daemon --console=plain
           )
+
+      - name: Build pinned Staff lifecycle API for LumaGuilds
+        run: python scripts/build-guild-staff-api.py
 
       - name: Build LumaGuilds 3.0 core artifact
         run: |
