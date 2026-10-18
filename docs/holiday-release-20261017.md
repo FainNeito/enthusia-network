@@ -1,41 +1,38 @@
-# Holiday release candidate reconciliation
+# Holiday release integration
 
-## Scope and requirements
+REQ-HREL-001: WHEN building the holiday release THE SYSTEM SHALL retain current parent-network features and resolve the exact reviewed component pins below.
+REQ-HREL-002: WHEN an explicitly approved fork is selected as the temporary release source THE SYSTEM SHALL use its merged default branch, retain upstream ancestry, and record that fork identity rather than claiming a parent merge.
+REQ-HREL-003: IF any selected source is unmerged or a required build is incomplete THEN THE SYSTEM SHALL withhold production release approval.
+REQ-HREL-004: WHEN preparing production rollback THE SYSTEM SHALL retain current artifacts, configuration and matched data/identity history without activating the release or resetting live claims.
 
-REQ-HREL-001: WHEN building the holiday candidate THE SYSTEM SHALL retain current canonical network features and resolve the exact Tags, advancement renderer and LumaGuilds commits listed below.
+The owner approved the merged Tags fork as the temporary release source on 17 October after the canonical merge returned HTTP403. This integration therefore changes the Tags submodule URL explicitly to FainNeito/EnthusiaTags. It does not impersonate a canonical Tags or Network merge. The release Network source is the owner's merged fork; upstream PR191 remains open for independent review. No security/build gate is waived by selecting a fork.
 
-REQ-HREL-002: IF a component has not merged into its canonical default branch THEN THE SYSTEM SHALL label this combined build as a testing candidate and require canonical merge/pin reconciliation before production delivery.
+## Exact sources
 
-This branch starts from canonical network main 559bfab and changes three existing submodule pins plus fork-only CI classification, the selected guild API bootstrap and this evidence. It does not reset the network to an older owner-fork branch, redesign menus, install plugins, reload the resource pack or enable any holiday activity.
-
-## Component pins
-
-| Component | Repository | Selected source | Status |
+| Component | Approved repository | Commit | Build |
 |---|---|---|---|
-| EnthusiaTags | wsg138/EnthusiaTags | 111d95af189c09d1f4c4b0d2dde34c3ccc52284e | Owner fork main; canonical PR29 pending maintainer merge |
-| Advancement renderer | BadgersMC/EnthusiaAdvancements | 01fac426152737c76cd4d2e570e07a33dde99798 | Canonical merged PR23 |
-| LumaGuilds | BadgersMC/LumaGuilds | 283d75f1e1016d415aa5afdfac840252f0391846 | Canonical main; release v3.0.39 |
-| EnthusiaHolidays | FainNeito/EnthusiaHolidays | 9926be709e9778fc2be3f45d40fc9aa74ce8d336 | Canonical merged PR23; built separately |
+| Tags | FainNeito/EnthusiaTags | 111d95af189c09d1f4c4b0d2dde34c3ccc52284e | Network gitlink; merged fork main, contains parent 28048ca |
+| Renderer | BadgersMC/EnthusiaAdvancements | 01fac426152737c76cd4d2e570e07a33dde99798 | Network gitlink; canonical merged |
+| Guilds | BadgersMC/LumaGuilds | 283d75f1e1016d415aa5afdfac840252f0391846 | Network gitlink; canonical v3.0.39 |
+| Holidays | FainNeito/EnthusiaHolidays | d07390924de3a953a0685958325de6cf24e85d8d | Standalone canonical Gradle build; merged PR29 |
+| UAA | FainNeito/UltimateAdvancementAPI | 94b59a461bcdd0452b98dbdf3536a678b77839ac | Standalone fork Maven build; merged PR2, contains current parent |
 
-Holidays is not currently a network submodule. Keep its existing standalone canonical Gradle build; this change does not add a private checkout to the public submodule loop or weaken the existing private Display verification gate.
+Unrelated Network pins and parent features are retained from canonical main 559bfabc2187ab796a3be889f032383a8041f819. The owner Network fork already contains that parent. The historical Tags/renderer and Guild-Staff bootstrap reconciliation remains in this branch. Guild Staff API is built from verified wsg138/EnthusiaStaff commit 8539bb8c77d7ecaf083546dda7ca8ccbfa8064e6; dirty or mismatched sources are rejected. No loose or stub API is committed.
 
-## Fork preservation audit
+Holidays and UAA are not Network submodules; retain their canonical standalone build paths and record their hashes in the release manifest. Do not claim the renderer's Maven compile dependency packages the server's UAA runtime. The selected UAA keeps version 2.8.2, so source commit and hash distinguish the fork build.
 
-- Tags already contains canonical parent main 28048ca. Retain its production menu restoration, reward hierarchy, provider categories, holiday tags and ownership/history migrations. The new fork PR10 updates only the renderer pin/version, bounded bootstrap validation and evidence.
-- Advancements' old fork pilot tree matches the earlier canonical squash 5a96728. Synchronization retains all newer parent progression events, companion compatibility, verified eKOTH and AxKoth retirement; merged owner-fork PR10 has the same source tree as current canonical 01fac426.
-- LumaGuilds' holiday themes, conditional revoke fixes, insert-column correction and Chapter 2 rewards already landed upstream. Current parent also contains the earned Pumpkin King guild emoji. Synchronize the owner fork to the exact current parent tree, retaining old ancestry only in that fork. Do not restore the intentionally retired AxKoth hook, old private pack bytes or send old history back to the sanitized parent.
-- The old network fork main is an ancestor of current canonical main. Unrelated pins and build behavior remain unchanged.
+## SPEAR and evidence
 
-## SPEAR and verification
+Spec: the requirements and approved source boundary above. Prove: the earlier strict Tags consumer/provider version check and bounded bootstrap regression failed before pin reconciliation; the real UAA refresh regression observed [select, remove, definitions, select] during a routine tick. Engine: dependency and CI bootstrap changes only in Network; the UAA fix uses progress-only packets for unchanged wrapper snapshots. Arch: preserve domain/persistence, reward and platform boundaries. No runtime plugin behavior is implemented in Network. Refine: existing component suites, actual renderer-to-UAA compatibility, current-head CI/review and the exact merged-fork combined build. No local EARS/state helper exists in Network; this manual record is validated by the existing Tags EARS helper where available.
 
-Spec: requirements and component selection above. Prove: the existing strict scripts/build-tags.sh consumer/provider version check rejects the old Tags pilot pin after the renderer update. Tags' bootstrap regression failed before the bounded version allowlist/pin fix. Engine: reconcile only selected dependency pins. Arch: no domain, persistence, permission, reward-dispatch or GUI behavior changes in the network repository. Refine: run existing component suites, actual pinned renderer-to-Tags verification, exact-head hosted checks and git diff --check. No project-local EARS/state helper exists here; use the existing Tags EARS tool for this scoped record and retain manual evidence.
+Verified component results: canonical Holidays clean build and all eleven Paper profiles pass, 274 tests. Clean UAA merged-fork default Maven build passes 46 tests, both distributions, Javadocs and all 24 adapters. Renderer production and test sources compile against that exact new UAA API (all old UAA classpath entries removed), with 44 tests passing. Tags previously passed 278 Java tests, 11 bootstrap checks, 12 Node checks and EARS; Guilds previously passed 1,769 cases with 16 environment skips. Current combined build must be verified at its merged fork head; a component result is not that combined proof.
 
-Local results: canonical Holidays clean build and all 11 supported Paper compile profiles pass, 273 tests; canonical advancement pilot clean install passes 44 tests; Tags clean verify against that actual provider passes 278 tests; LumaGuilds current-parent clean test/shadowJar passes 1,769 test cases, zero failures/errors and 16 environment skips. Tags additionally passes 11 Python bootstrap regressions, 12 Node state/tooling tests and EARS. These are component/source checks, not a claim that the full network CI, private Display gate, MariaDB profiles or Minecraft clients have passed.
+The workflow recognizes same-repository owner-fork runs and cross-fork PRs as public builds. Canonical trusted builds still require the private Display read token and approved dependency URLs/hashes. Public builds skip private Display and never count as its acceptance. Keep the existing private Display gate unchanged; verify its actual pinned source in an authorized local/trusted build for a complete release.
 
-The owner's fork PR reproduced a CI classification failure: a same-repository PR in a fork required the canonical private Display token. Recognize the event repository's fork flag as well as cross-repository PRs, matching the existing public-fork verification policy. Truth table: owner-fork PR/push skips private Display; cross-fork PR into canonical also skips it; canonical push and canonical same-repository PR still require its private token and approved API variables. No runtime behavior or canonical trusted gate changes. A successful public build must never be reported as private Display acceptance.
+The owner confirmed the remaining gameplay checks working, including fresh payouts/Netherite, inventory handling, first finisher, Watcher eyes/music/advancements/disc. This is owner acceptance, distinct from independent replay. The new selected-tab transport fix is installed on TEST for a separate 30-second inspection check.
 
-The next hosted run at f4539be passed the selected renderer/Tags checks but failed guild compilation because the network did not supply the newer parent's Staff lifecycle API. Preserve that parent functionality: scripts/build-guild-staff-api.py builds the exact wsg138/EnthusiaStaff commit 8539bb8c77d7ecaf083546dda7ca8ccbfa8064e6 already used by selected LumaGuilds CI, checks the guild's declared pin, refuses modified source checkouts, verifies source HEAD and six required API class entries, and records the resulting JAR hash. CI plus both existing build-all entrypoints invoke it before guild compilation. Local bootstrap passed with hash 4c834ececb860a88aab7f9a757b9ce86301c24a8452d4c3c5b1f1653a28e51ea. No guild or Staff source implementation is patched and no loose/stub API is committed.
+## Install and rollback boundary
 
-## Release gates
+Production has no Holidays directory/JAR at the backup baseline. Initial installation includes explicit module switches with hunt and Watcher off before startup; enable only on the owner's schedule. Do not import TEST hunts, databases, identity keys, staging events or TEST switches. Seasonal guild icons remain excluded; resource-pack reload is not authorized.
 
-The account preparing this candidate cannot merge canonical Tags PR29 or the canonical network PR. After maintainers merge, replace the Tags pin with its exact canonical merge commit and reverify the combined head before producing production artifacts. Keep both the hunt and Watcher disabled for initial installation. Watcher player acceptance and its missing dispatch acknowledgement/replay remain separate release blockers. Seasonal guild icons remain excluded and no pack reload is authorized.
+A production live rollback archive is stored without changing running plugins; six small Tags SQLite snapshots are integrity-verified. Large DB/sidecar copying is limited by panel size limits and an expired node download certificate. The live archive is not an atomic DB snapshot and has no independently verified remote SHA. Refresh with consistent stopped data at separately authorized activation, keeping DB/WAL and the hunt identity key together. Do not restore stale reward history or pay claims twice. No production activation occurred.
