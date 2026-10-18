@@ -15,7 +15,7 @@ This branch starts from canonical network main 559bfab and changes three existin
 | EnthusiaTags | wsg138/EnthusiaTags | 111d95af189c09d1f4c4b0d2dde34c3ccc52284e | Owner fork main; canonical PR29 pending maintainer merge |
 | Advancement renderer | BadgersMC/EnthusiaAdvancements | 01fac426152737c76cd4d2e570e07a33dde99798 | Canonical merged PR23 |
 | LumaGuilds | BadgersMC/LumaGuilds | 283d75f1e1016d415aa5afdfac840252f0391846 | Canonical main; release v3.0.39 |
-| EnthusiaHolidays | FainNeito/EnthusiaHolidays | 9926be709e9778fc2be3f45d40fc9aa74ce8d336 | Canonical merged PR23; built separately |
+| EnthusiaHolidays | FainNeito/EnthusiaHolidays | d07390924de3a953a0685958325de6cf24e85d8d | Canonical merged PR29; built separately |
 
 Holidays is not currently a network submodule. Keep its existing standalone canonical Gradle build; this change does not add a private checkout to the public submodule loop or weaken the existing private Display verification gate.
 
@@ -38,4 +38,14 @@ The next hosted run at f4539be passed the selected renderer/Tags checks but fail
 
 ## Release gates
 
-The account preparing this candidate cannot merge canonical Tags PR29 or the canonical network PR. After maintainers merge, replace the Tags pin with its exact canonical merge commit and reverify the combined head before producing production artifacts. Keep both the hunt and Watcher disabled for initial installation. Watcher player acceptance and its missing dispatch acknowledgement/replay remain separate release blockers. Seasonal guild icons remain excluded and no pack reload is authorized.
+The account preparing this candidate cannot merge canonical Tags PR29 or the canonical network PR. After maintainers merge, replace the Tags pin with its exact canonical merge commit and reverify the combined head before producing production artifacts. Keep both the hunt and Watcher disabled for initial installation. The owner confirmed the remaining gameplay acceptance checks on 17 October: fresh payouts and Netherite, inventory handling, first finisher, and Watcher eyes/music/advancements/disc. This is owner acceptance, not an independently replayed packet trace. The separate tab-focus defect has been corrected in the merged UAA owner-fork release below; live acceptance of that new transport fix remains separate. Seasonal guild icons remain excluded and no pack reload is authorized.
+
+
+## Final integration follow-up, 17 October
+
+- Holidays PR29 merged as d07390924de3a953a0685958325de6cf24e85d8d. Clean canonical Gradle build and all eleven Paper profiles passed, 274 tests.
+- Tab focus: UAA owner-fork PR2 merged as 94b59a461bcdd0452b98dbdf3536a678b77839ac. Unchanged definitions now use progress-only packets. Java 25 default Maven clean verify passes 46 tests and all 24 native adapters; exact merged-source rebuild and hashes are recorded in the release packet. It retains the existing 2.8.2 version, so hash and commit are authoritative. Parent PR121 also carries this fix; PR122 remains the independent loading callback fix. This UAA artifact is built separately, not supplied by the monorepo renderer's compile dependency.
+- Tags canonical PR29 still needs maintainer merge. Keep the current owner-main pin 111d95af only as a candidate until replacing it with the exact canonical merge commit. The current account has pull-only access to canonical Tags and Network. No maintainer approval or canonical merge is implied by green public-fork CI.
+- Network runtime gitlinks remain the current candidate values; unrelated features and pins are preserved. Private Display remains a required trusted-build gate; public-fork builds explicitly skip it and do not count as private acceptance.
+- Production backup prepared without changing running plugins. Its live archive is not an atomic database snapshot. Refresh the backup with the server stopped at separately authorized activation, keeping matching SQLite DB/WAL files and the hunt identity key together. Rollback must not reset reward history to pay claims twice.
+- Production has no Holidays directory/JAR at backup time. Initial installation must include explicit module switches with hunt and Watcher off before startup; enable them only on the owner's separate schedule. Do not copy TEST hunts, player databases, identity keys, staging events or TEST module settings to production.
