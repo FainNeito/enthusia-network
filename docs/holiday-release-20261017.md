@@ -36,3 +36,13 @@ The owner confirmed the remaining gameplay checks working, including fresh payou
 Production has no Holidays directory/JAR at the backup baseline. Initial installation includes explicit module switches with hunt and Watcher off before startup; enable only on the owner's schedule. Do not import TEST hunts, databases, identity keys, staging events or TEST switches. Seasonal guild icons remain excluded; resource-pack reload is not authorized.
 
 A production live rollback archive is stored without changing running plugins; six small Tags SQLite snapshots are integrity-verified. Large DB/sidecar copying is limited by panel size limits and an expired node download certificate. The live archive is not an atomic DB snapshot and has no independently verified remote SHA. Refresh with consistent stopped data at separately authorized activation, keeping DB/WAL and the hunt identity key together. Do not restore stale reward history or pay claims twice. No production activation occurred.
+
+## Native Enthusia tab presentation follow-up
+
+REQ-HREL-005: WHEN packaging the native tab presentation fix THE SYSTEM SHALL pin merged FainNeito/EnthusiaTags commit 6bbb2534cef121cce01223da0e536ea338fd6566 and preserve every other reviewed plugin pin.
+
+The owner authorized review, conditional merge and production file replacement without restart. Tags PR11 is reviewed and merged; its exact PR-head build and Codacy gates passed. The clean merged component build verifies 285 tests. The new scoped logo model uses the existing pack asset. Provider reward cards retain their node IDs and move beside their provider advancements; extra rewards wrap into bounded rows. No reward, criterion, claim storage or permission semantics change.
+
+This follow-up supersedes only the Tags pin in the table above. All other gitlinks and trusted private Display gates/inputs are unchanged. Network has no local EARS/state helper; this is source-pin/documentation integration, so behavioral proof and engine implementation remain in Tags. The meaningful integration proof is exact-head combined CI plus unchanged-pin inspection; hosted review/merged-head evidence and artifact hashes are retained in the release operations receipt.
+
+Production replacement is file-only; no restart, reload or pack rebuild is authorized. New in-game client acceptance remains distinct from source/build proof and the interactive layout simulation.
