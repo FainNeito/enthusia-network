@@ -11,7 +11,7 @@ The owner approved the merged Tags fork as the temporary release source on 17 Oc
 
 | Component | Approved repository | Commit | Build |
 |---|---|---|---|
-| Tags | FainNeito/EnthusiaTags | 111d95af189c09d1f4c4b0d2dde34c3ccc52284e | Network gitlink; merged fork main, contains parent 28048ca |
+| Tags | FainNeito/EnthusiaTags | a2d7d9e1f2cd5e5732717a8bc35de56baf1be3da | Network gitlink; merged fork main, contains prior 111d95a and parent 28048ca |
 | Renderer | BadgersMC/EnthusiaAdvancements | 01fac426152737c76cd4d2e570e07a33dde99798 | Network gitlink; canonical merged |
 | Guilds | BadgersMC/LumaGuilds | 283d75f1e1016d415aa5afdfac840252f0391846 | Network gitlink; canonical v3.0.39 |
 | Holidays | FainNeito/EnthusiaHolidays | d07390924de3a953a0685958325de6cf24e85d8d | Standalone canonical Gradle build; merged PR29 |
@@ -36,3 +36,15 @@ The owner confirmed the remaining gameplay checks working, including fresh payou
 Production has no Holidays directory/JAR at the backup baseline. Initial installation includes explicit module switches with hunt and Watcher off before startup; enable only on the owner's schedule. Do not import TEST hunts, databases, identity keys, staging events or TEST switches. Seasonal guild icons remain excluded; resource-pack reload is not authorized.
 
 A production live rollback archive is stored without changing running plugins; six small Tags SQLite snapshots are integrity-verified. Large DB/sidecar copying is limited by panel size limits and an expired node download certificate. The live archive is not an atomic DB snapshot and has no independently verified remote SHA. Refresh with consistent stopped data at separately authorized activation, keeping DB/WAL and the hunt identity key together. Do not restore stale reward history or pay claims twice. No production activation occurred.
+
+## 20 October local Tags pin reconciliation
+
+REQ-HREL-005: WHEN refreshing the approved Tags release fork pin THE SYSTEM SHALL retain all existing PR191 integration changes, select its merged main, and leave renderer, Guilds, Staff, Holidays and UAA source decisions unchanged.
+
+INFRA-HREL-005: Prepared locally from fetched canonical main `559bfabc2187ab796a3be889f032383a8041f819`, then fast-forwarded the existing reviewed PR191 head `07911cdfec5616e9cba0c09c3e1c201d993b92fc`. Only the Tags gitlink and this integration evidence change beyond PR191. The selected Tags commit includes the native-tab presentation fix and Pumpkin Patcher; it descends from PR191's previous Tags pin and canonical Tags main. No history is dropped. Existing sibling pins and orchestration remain exact.
+
+SPEAR: spec is REQ-HREL-005; prove/engine behavioral phases do not apply to immutable infrastructure pin data. Architecture retains source ownership and companion API checks. Refine requires static pin/ancestry/version checks and canonical combined build at the eventual published head. Network contains no local EARS/state helpers; this manual record is not a claim they ran. The historical component counts and 17 October deployment boundaries above are dated evidence, not new acceptance. The existing PR191 CI success belongs only to its previous head. Local bounded validation built the exact pinned renderer pilot with Maven clean install, then the selected merged Tags source with Maven clean verify: 285 tests, zero failures/errors/skips. The consumer/provider pilot version matches exactly. All 12 project SPEAR tooling tests and all five HREL EARS clauses pass using the project parser; Tags requirements validation, Pumpkin Patcher static asset verification and whitespace checks pass. This is the Tags/renderer slice, not the full Network build.
+
+Source/license boundary: Network is BadgersMC/enthusia-network; Tags uses the explicitly owner-approved FainNeito fork of wsg138/EnthusiaTags. GitHub reports no license for these repositories and Tags has no root LICENSE file. This change neither creates a third-party fork nor copies/modifies plugin implementation; it updates an existing approved immutable dependency. No broader redistribution/license clearance is asserted.
+
+This preparation does not assert a merged Network change, complete combined build, production deployment, or native-client acceptance. Holidays and UAA remain standalone; no invented Holidays submodule is introduced. Full canonical combined verification, including trusted private Display, remains required before release approval.
