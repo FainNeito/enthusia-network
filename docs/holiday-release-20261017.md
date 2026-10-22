@@ -51,7 +51,7 @@ This preparation does not assert a merged Network change, complete combined buil
 
 ## 22 October final Halloween dependency reconciliation
 
-REQ-HREL-006: WHEN preparing the final Halloween release THE BUILD SHALL pin the approved Tags fork's merged `6d1acc9b72c81cb375402bb22f30be4beb688668`, retaining native tab presentation, Pumpkin Patcher and the single-owner Forgotten Melody announcement fix, while preserving every other existing plugin pin.
+REQ-HREL-006: WHEN preparing the final Halloween release THE SYSTEM SHALL pin the approved Tags fork's merged `6d1acc9b72c81cb375402bb22f30be4beb688668`, retaining native tab presentation, Pumpkin Patcher and the single-owner Forgotten Melody announcement fix, while preserving every other existing plugin pin.
 
 INFRA-HREL-006: Continued from exact PR191 head `0c7482031182403a2b5f35a76d82a995bd5f2404` after fetching authoritative main `559bfabc2187ab796a3be889f032383a8041f819`. Tags6d1acc9 descends from the prior a2d7d9e pin. Only this document and that gitlink change. Current source remains individually owned; Holidays is standalone at merged PR38 `829286e3e480cb702bcc8227e6bc02f3b78ccf14`, with no invented Network submodule. On TEST, exact Holidays b523cd7 implementation and Tags6d1acc9 produced one natural Forgotten Melody announcement after the full243-second duration, with newly persisted progress and unchanged physical inventory. The Holidays merge retains the same implementation tree.
 
