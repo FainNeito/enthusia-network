@@ -11,7 +11,7 @@ The owner approved the merged Tags fork as the temporary release source on 17 Oc
 
 | Component | Approved repository | Commit | Build |
 |---|---|---|---|
-| Tags | FainNeito/EnthusiaTags | 111d95af189c09d1f4c4b0d2dde34c3ccc52284e | Network gitlink; merged fork main, contains parent 28048ca |
+| Tags | FainNeito/EnthusiaTags | a2d7d9e1f2cd5e5732717a8bc35de56baf1be3da | Network gitlink; merged fork main, contains prior 111d95a and parent 28048ca |
 | Renderer | BadgersMC/EnthusiaAdvancements | 01fac426152737c76cd4d2e570e07a33dde99798 | Network gitlink; canonical merged |
 | Guilds | BadgersMC/LumaGuilds | 283d75f1e1016d415aa5afdfac840252f0391846 | Network gitlink; canonical v3.0.39 |
 | Holidays | FainNeito/EnthusiaHolidays | d07390924de3a953a0685958325de6cf24e85d8d | Standalone canonical Gradle build; merged PR29 |
@@ -39,10 +39,35 @@ A production live rollback archive is stored without changing running plugins; s
 
 ## Native Enthusia tab presentation follow-up
 
-REQ-HREL-005: WHEN packaging the native tab presentation fix THE SYSTEM SHALL pin merged FainNeito/EnthusiaTags commit 6bbb2534cef121cce01223da0e536ea338fd6566 and preserve every other reviewed plugin pin.
+REQ-HREL-007: WHEN packaging the native tab presentation fix THE SYSTEM SHALL pin merged FainNeito/EnthusiaTags commit 6bbb2534cef121cce01223da0e536ea338fd6566 and preserve every other reviewed plugin pin.
 
 The owner authorized review, conditional merge and production file replacement without restart. Tags PR11 is reviewed and merged; its exact PR-head build and Codacy gates passed. The clean merged component build verifies 285 tests. The new scoped logo model uses the existing pack asset. Provider reward cards retain their node IDs and move beside their provider advancements; extra rewards wrap into bounded rows. No reward, criterion, claim storage or permission semantics change.
 
-This follow-up supersedes only the Tags pin in the table above. All other gitlinks and trusted private Display gates/inputs are unchanged. Network has no local EARS/state helper; this is source-pin/documentation integration, so behavioral proof and engine implementation remain in Tags. The meaningful integration proof is exact-head combined CI plus unchanged-pin inspection; hosted review/merged-head evidence and artifact hashes are retained in the release operations receipt.
+This dated native-tab follow-up superseded only the Tags pin in the table above; the later HREL006 release selection retains this merged fix. All other gitlinks and trusted private Display gates/inputs are unchanged. Network has no local EARS/state helper; this is source-pin/documentation integration, so behavioral proof and engine implementation remain in Tags. The meaningful integration proof is exact-head combined CI plus unchanged-pin inspection; hosted review/merged-head evidence and artifact hashes are retained in the release operations receipt.
 
 Production replacement is file-only; no restart, reload or pack rebuild is authorized. New in-game client acceptance remains distinct from source/build proof and the interactive layout simulation.
+## 20 October local Tags pin reconciliation
+
+REQ-HREL-005: WHEN refreshing the approved Tags release fork pin THE SYSTEM SHALL retain all existing PR191 integration changes, select its merged main, and leave renderer, Guilds, Staff, Holidays and UAA source decisions unchanged.
+
+INFRA-HREL-005: Prepared locally from fetched canonical main `559bfabc2187ab796a3be889f032383a8041f819`, then fast-forwarded the existing reviewed PR191 head `07911cdfec5616e9cba0c09c3e1c201d993b92fc`. Only the Tags gitlink and this integration evidence change beyond PR191. The selected Tags commit includes the native-tab presentation fix and Pumpkin Patcher; it descends from PR191's previous Tags pin and canonical Tags main. No history is dropped. Existing sibling pins and orchestration remain exact.
+
+SPEAR: spec is REQ-HREL-005; prove/engine behavioral phases do not apply to immutable infrastructure pin data. Architecture retains source ownership and companion API checks. Refine requires static pin/ancestry/version checks and canonical combined build at the eventual published head. Network contains no local EARS/state helpers; this manual record is not a claim they ran. The historical component counts and 17 October deployment boundaries above are dated evidence, not new acceptance. The existing PR191 CI success belongs only to its previous head. Local bounded validation built the exact pinned renderer pilot with Maven clean install, then the selected merged Tags source with Maven clean verify: 285 tests, zero failures/errors/skips. The consumer/provider pilot version matches exactly. All 12 project SPEAR tooling tests and all five HREL EARS clauses pass using the project parser; Tags requirements validation, Pumpkin Patcher static asset verification and whitespace checks pass. This is the Tags/renderer slice, not the full Network build.
+
+Source/license boundary: Network is BadgersMC/enthusia-network; Tags uses the explicitly owner-approved FainNeito fork of wsg138/EnthusiaTags. GitHub reports no license for these repositories and Tags has no root LICENSE file. This change neither creates a third-party fork nor copies/modifies plugin implementation; it updates an existing approved immutable dependency. No broader redistribution/license clearance is asserted.
+
+This preparation does not assert a merged Network change, complete combined build, production deployment, or native-client acceptance. Holidays and UAA remain standalone; no invented Holidays submodule is introduced. Full canonical combined verification, including trusted private Display, remains required before release approval.
+
+## 22 October final Halloween dependency reconciliation
+
+REQ-HREL-006: WHEN preparing the final Halloween release THE SYSTEM SHALL pin the approved Tags fork's merged `6d1acc9b72c81cb375402bb22f30be4beb688668`, retaining native tab presentation, Pumpkin Patcher and the single-owner Forgotten Melody announcement fix, while preserving every other existing plugin pin.
+
+INFRA-HREL-006: Continued from exact PR191 head `0c7482031182403a2b5f35a76d82a995bd5f2404` after fetching authoritative main `559bfabc2187ab796a3be889f032383a8041f819`. Tags6d1acc9 descends from the prior a2d7d9e pin. Only this document and that gitlink change. Current source remains individually owned; Holidays is standalone at merged PR38 `829286e3e480cb702bcc8227e6bc02f3b78ccf14`, with no invented Network submodule. On TEST, exact Holidays b523cd7 implementation and Tags6d1acc9 produced one natural Forgotten Melody announcement after the full243-second duration, with newly persisted progress and unchanged physical inventory. The Holidays merge retains the same implementation tree.
+
+SPEAR: infrastructure pin data has no behavioral engine change. Proof consists of ancestry, unchanged sibling pins, the real consumer/provider build and trusted private Display verification; a public CI skip cannot satisfy that last requirement. Existing Tags EARS tooling validates the new clause. Exact build results and immutable artifact hashes are recorded separately after execution. This paragraph does not assert completed builds, merge of Network191 or production readiness. Production remains read-only and activation requires a separate authorization.
+
+## Owner-fork integration preparation, 22 October
+
+REQ-HREL-008: WHEN reconciling the owner Network fork THE SYSTEM SHALL retain both fork-main2280831 and reviewed PR191 b015258 ancestry, select merged Tags6d1acc9, preserve all21 sibling pins, and withhold a release claim until the selected Network source is merged and verified.
+
+The documentation merge retains both native-tab and later pin histories, using unique requirement IDs. Authoritative parentmain559bfab and ownerforkmain2280831 were fetched before preparation. This integration does not roll back the native-tab changes, merge upstream191, authorize production writes, or claim native runtime gates passed.
