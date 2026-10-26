@@ -1,5 +1,12 @@
 # Integration tasks
 
+## INFRA-004 [INFRA] Pin and verify the paired reviewed Tags and pilot renderer release
+
+  Status: [ ] paired canonical-source/hosted verification pending.
+  References: REQ-003; docs/implementation.md Layer Dependency Rules; docs/tags-advancements-release-20261026.md.
+  Evidence: wsg138/EnthusiaTags PR32 consolidates fork PR17 at 380497fd7ae15fdc6eb19365eae308967348bff2; BadgersMC/EnthusiaAdvancements PR23 merged01fac426152737c76cd4d2e570e07a33dde99798. scripts/build-tags.sh installs the actual pinned network pilot after companion bootstrap. Source readiness, source merge, combined verification, staged files and runtime/client acceptance remain separate gates.
+  SPEAR: INFRA skips prove/engine because only immutable gitlinks and evidence change. No plugin code, application imports, configuration, permissions or other pins change. Exact-head canonical source and combined build checks are pending; do not mark this as a release before they pass.
+
 - [x] INFRA-002: Pin merged Halloween asset tooling and verify it in network builds.
   References: REQ-002; docs/implementation.md, EnthusiaSignature.
   Evidence: FainNeito/ItemSignature PR #4, merged commit `2e60f42d29d67dc610d16d6564b2251e58731a13`; tools/resourcepack/test_prepare_halloween.py; resourcepack/halloween/requirements.txt; scripts/build-all.sh; scripts/build-all.bat; .github/workflows/build.yml.
