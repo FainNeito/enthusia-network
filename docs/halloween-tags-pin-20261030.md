@@ -1,0 +1,5 @@
+# Halloween Tags network pin
+
+Pin EnthusiaTags to merged fork main `6efb25f770f0431637e82ff324585b6f6f51c9b0`, which contains the private Remembered reward and preserves the existing public constructor API. The network's advancement renderer remains at `01fac426152737c76cd4d2e570e07a33dde99798`.
+
+This is a submodule dependency integration, with no new application behavior beyond the already reviewed Tags source. The network-pinned advancement pilot built and installed locally with Maven, then the pinned Tags checkout passed offline `clean verify`: 321 tests and the shaded SQLite probe. EARS validation, 12 Node tooling tests and 11 companion Python tests passed. The first Python attempt did not start tests because the pinned `defusedxml` dependency was absent; the checksum-pinned requirement was installed into an isolated local directory and the retry passed. The exact shell build helper was unavailable in this Windows environment, so its relevant verification steps were reproduced individually; hosted CI remains a separate check. No runtime or production result is implied.
